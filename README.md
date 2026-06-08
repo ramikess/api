@@ -4,9 +4,9 @@ A REST API built with **Symfony** and **API Platform** for managing books, inclu
 
 ## Stack
 
-- PHP 8.x
-- Symfony 6.x
-- API Platform 3.x
+- PHP 8.4
+- Symfony 8.1
+- API Platform 4.x
 - Doctrine ORM
 - VichUploaderBundle
 
@@ -79,7 +79,3 @@ imageFile=<binary>
 GET /api/books
 Accept: application/json
 ```
-
-## API documentation
-
-Interactive docs available at `/api` (Swagger UI) once the app is running.
