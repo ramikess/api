@@ -5,11 +5,11 @@ Projet personnel d'apprentissage autour de **API Platform 3.x**, **Symfony**, **
 ## Stack technique
 
 - PHP 8.3
-- Symfony 6.4
-- API Platform 3.x
+- Symfony 8.1
+- API Platform 4.x
 - Doctrine ORM
 - VichUploaderBundle
-- PostgreSQL (ou MySQL)
+- Mysql
 
 ## Objectifs du projet
 
