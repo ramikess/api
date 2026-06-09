@@ -109,10 +109,8 @@ vich_uploader:
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 ```
 
-Démarrer le serveur :
-
-```bash
-symfony server:start
+docker compose build
+docker compose up
 ```
 
 La documentation interactive est disponible sur `https://localhost:8000/api`.
