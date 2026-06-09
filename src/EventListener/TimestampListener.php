@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Book;
+use App\Entity\Loan;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
@@ -28,7 +29,7 @@ class TimestampListener
     public function preUpdate(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
-        if (!$entity instanceof Book) {
+        if (!$entity instanceof Book && !$entity instanceof Loan) {
             return;
         }
 

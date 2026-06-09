@@ -10,23 +10,28 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Dto\Input\UserCreateInput;
+use App\Entity\User;
 use App\State\Processor\UserCreateProcessor;
 use App\State\Provider\UserProvider;
+use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'User',
     operations: [
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
+            validationContext: ['groups' => ['create']],
             input: UserCreateInput::class,
-            processor: UserCreateProcessor::class,
+            processor: UserCreateProcessor::class
         ),
         new GetCollection(provider: UserProvider::class),
         new Get(provider: UserProvider::class),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
+#[Map(source: User::class)]
 class UserResource
 {
     #[ApiProperty(identifier: true)]
@@ -39,6 +44,8 @@ class UserResource
     public string $lastName;
 
     #[Groups(['user:read'])]
+    #[Assert\Email(message: 'Email invalide')]
+    #[Assert\NotBlank(groups: ['user:write'])]
     public string $email;
 
     #[Groups(['user:read'])]

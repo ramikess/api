@@ -6,10 +6,14 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\BookRepository;
+use App\State\Provider\AvailableBookProvider;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
@@ -22,7 +26,19 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 #[Vich\Uploadable]
 #[GetCollection(
+    uriTemplate: '/books/available',
+    outputFormats: ['json' => ['application/json']],
+    normalizationContext: ['groups' => ['book:read']],
+    provider: AvailableBookProvider::class,
+)]
+#[GetCollection(
+    uriTemplate: '/books',
     outputFormats: ['json' => ['application/json']]
+)]
+#[Get(
+    uriTemplate: '/books/{id}',
+    outputFormats: ['json' => ['application/json']],
+    requirements: ['id' => '\d+'],
 )]
 #[Post(
     inputFormats: ['multipart' => ['multipart/form-data']],
@@ -62,6 +78,14 @@ class Book
 
     #[ORM\Column(updatable: false)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'book')]
+    private Collection $loans;
+
+    public function __construct()
+    {
+        $this->loans = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -126,5 +150,20 @@ class Book
     public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function isAvailable(): bool
+    {
+        foreach ($this->loans as $loan) {
+            if ($loan->isActive()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

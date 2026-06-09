@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -26,6 +28,14 @@ class User
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $photo;
+
+    #[ORM\OneToMany(targetEntity: Loan::class, mappedBy: 'user')]
+    private Collection $loans;
+
+    public function __construct()
+    {
+        $this->loans = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -70,5 +80,29 @@ class User
     public function setPhoto(string $photo): void
     {
         $this->photo = $photo;
+    }
+
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): self
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): self
+    {
+        if ($this->loans->removeElement($loan)) {
+            if ($loan->getUser() === $this) {
+                $loan->setUser(null);
+            }
+        }
+        return $this;
     }
 }
