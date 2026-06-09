@@ -81,7 +81,6 @@ Géré via le DTO `UserCreateInput` et le `UserCreateProcessor`. Le mapping entr
 ```bash
 git clone <repo>
 cd <repo>
-composer install
 ```
 
 Configurer `.env.local` :
@@ -111,6 +110,8 @@ vich_uploader:
 
 docker compose build
 docker compose up
+docker exec -it php-sgp bash
+composer install
 ```
 
 La documentation interactive est disponible sur `https://localhost:8000/api`.
