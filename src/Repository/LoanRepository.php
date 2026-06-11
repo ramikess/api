@@ -39,7 +39,6 @@ class LoanRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    // LoanRepository.php
     public function hasOverlappingLoan(Book $book, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): bool
     {
         return (bool) $this->createQueryBuilder('l')
