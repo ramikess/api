@@ -9,9 +9,14 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Dto\Input\UserCreateInput;
+use App\Dto\Input\UserPhotoInput;
+use App\Dto\Input\UserUpdateInput;
 use App\Entity\User;
 use App\State\Processor\UserCreateProcessor;
+use App\State\Processor\UserPhotoProcessor;
+use App\State\Processor\UserUpdateProcessor;
 use App\State\Provider\UserProvider;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -26,6 +31,17 @@ use Symfony\Component\Serializer\Attribute\Groups;
         ),
         new GetCollection(provider: UserProvider::class),
         new Get(provider: UserProvider::class),
+        new Put(
+            input: UserUpdateInput::class,
+            provider: UserProvider::class,
+            processor: UserUpdateProcessor::class,
+        ),
+        new Post(
+            uriTemplate: '/users/{id}/photo',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            provider: UserProvider::class,
+            processor: UserPhotoProcessor::class,
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
 )]
