@@ -40,7 +40,22 @@ readonly class LoanProvider implements ProviderInterface
             throw new NotFoundHttpException(sprintf('Emprunt #%d introuvable.', $id));
         }
 
+        if (isset($uriVariables['userId'])) {
+            return $this->provideCollectionByUser((int) $uriVariables['userId']);
+        }
+
         return $this->mapper->map($loan);
+    }
+
+    /**
+     * @return array<LoanResource>
+     */
+    private function provideCollectionByUser(int $userId): array
+    {
+        return array_map(
+            fn(Loan $loan) => $this->mapper->map($loan),
+            $this->loanRepository->findBy(['user' => $userId])
+        );
     }
 
     private function provideCollection(array $context): array
