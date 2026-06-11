@@ -42,6 +42,15 @@ use Symfony\Component\Serializer\Attribute\Groups;
             normalizationContext: ['groups' => ['loan:read']],
             provider: LoanProvider::class,
         ),
+//      Action custom
+//        new Post(
+//            uriTemplate: '/books/{id}/borrow',
+//            uriVariables: ['id'],
+//            input: BorrowBookCommand::class,
+//            output: Loan::class,
+//            processor: BorrowBookProcessor::class,
+//            status: 201,
+//        ),
     ],
 )]
 class LoanResource
