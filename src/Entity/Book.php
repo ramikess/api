@@ -70,7 +70,6 @@ class Book
     private ?string $imageName = null;
 
     #[Vich\UploadableField(mapping: 'book_images', fileNameProperty: 'imageName')]
-    #[Groups(['book:write'])]
     private ?File $imageFile = null;
 
     #[ORM\Column]

@@ -24,6 +24,5 @@ class LoanCreateInput
     #[Assert\NotBlank]
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Assert\GreaterThan(propertyPath: 'startDate', message: 'La date de fin doit être après la date de début')]
-    #[Assert\LessThanOrEqual('+30 days', message: 'La durée maximale d\'emprunt est de 30 jours')]
     public \DateTimeImmutable $endDate;
 }

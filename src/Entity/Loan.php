@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LoanRepository::class)]
 #[ORM\Table(name: 'loan')]
-#[ORM\UniqueConstraint(name: 'unique_active_loan', columns: ['book_id', 'user_id', 'status'])]
 class Loan
 {
     #[ORM\Id]
@@ -148,6 +147,6 @@ class Loan
 
     public function isOverdue(): bool
     {
-        return $this->isActive() && new \DateTime() > $this->endDate;
+        return $this->isActive() && new \DateTimeImmutable() > $this->endDate;
     }
 }
