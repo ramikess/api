@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
             provider: LoanProvider::class,
         ),
         new Get(
-            normalizationContext: ['groups' => ['loan:read', 'loan:details']],
+            normalizationContext: ['groups' => ['loan:read']],
             provider: LoanProvider::class,
         ),
     ],
@@ -50,10 +50,10 @@ class LoanResource
     #[Groups(['loan:read'])]
     public int $id;
 
-    #[Groups(['loan:read', 'loan:details'])]
+    #[Groups(['loan:read'])]
     public array $user;
 
-    #[Groups(['loan:read', 'loan:details'])]
+    #[Groups(['loan:read'])]
     public array $book;
 
     #[Groups(['loan:read'])]
@@ -73,7 +73,7 @@ class LoanResource
     #[Groups(['loan:read'])]
     public string $statusLabel;
 
-    #[Groups(['loan:read', 'loan:details'])]
+    #[Groups(['loan:read'])]
     public bool $isOverdue;
 
     #[Groups(['loan:details'])]

@@ -12,6 +12,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 final readonly class UserCreateProcessor implements ProcessorInterface
@@ -19,13 +20,16 @@ final readonly class UserCreateProcessor implements ProcessorInterface
     public function __construct(
         private EntityManagerInterface $entityManager,
         private SluggerInterface       $slugger,
+        private ObjectMapperInterface  $objectMapper,
         #[Autowire('%kernel.project_dir%/public/uploads/users')]
         private string                 $uploadDir,
     ) {}
 
+    /**
+     * @param UserCreateInput $data
+     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): UserResource
     {
-        /** @var UserCreateInput $data */
         $user = new User();
         $user->setFirstName($data->firstName);
         $user->setLastName($data->lastName);
@@ -35,14 +39,7 @@ final readonly class UserCreateProcessor implements ProcessorInterface
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $resource = new UserResource();
-        $resource->id = $user->getId();
-        $resource->firstName = $user->getFirstName();
-        $resource->lastName = $user->getLastName();
-        $resource->email = $user->getEmail();
-        $resource->photoUrl = '/uploads/users/' . $user->getPhoto();
-
-        return $resource;
+        return $this->objectMapper->map($user, UserResource::class);
     }
 
     private function handleUpload(UploadedFile $file): string

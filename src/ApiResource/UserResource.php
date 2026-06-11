@@ -15,14 +15,12 @@ use App\State\Processor\UserCreateProcessor;
 use App\State\Provider\UserProvider;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: 'User',
     operations: [
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
-            validationContext: ['groups' => ['create']],
             input: UserCreateInput::class,
             processor: UserCreateProcessor::class
         ),
@@ -35,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserResource
 {
     #[ApiProperty(identifier: true)]
+    #[Groups(['user:read'])]
     public int $id;
 
     #[Groups(['user:read'])]
@@ -44,8 +43,6 @@ class UserResource
     public string $lastName;
 
     #[Groups(['user:read'])]
-    #[Assert\Email(message: 'Email invalide')]
-    #[Assert\NotBlank(groups: ['user:write'])]
     public string $email;
 
     #[Groups(['user:read'])]

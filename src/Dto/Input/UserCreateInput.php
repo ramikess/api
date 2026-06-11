@@ -8,20 +8,24 @@ use App\Validator\Constraints\UniqueEmail;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Assert\GroupSequence(['UserCreateInput', 'create'])]
 class UserCreateInput
 {
     #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     public string $firstName;
 
     #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     public string $lastName;
 
-    #[Assert\Email]
     #[Assert\NotBlank]
+    #[Assert\Email]
+    #[Assert\Length(max: 255)]
     #[UniqueEmail(groups: ['create'])]
     public string $email;
 
     #[Assert\NotNull]
     #[Assert\Image]
-    public UploadedFile $photo;
+    public ?UploadedFile $photo = null;
 }
