@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Handler;
 
 use App\Dto\Input\UserCreateInput;
 use App\Entity\User;

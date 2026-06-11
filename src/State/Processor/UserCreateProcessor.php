@@ -9,7 +9,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\ApiResource\UserResource;
 use App\Dto\Input\UserCreateInput;
 use App\Entity\User;
-use App\Service\CreateUserHandler;
+use App\Handler\CreateUserHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
