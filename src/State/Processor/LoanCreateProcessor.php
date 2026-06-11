@@ -26,13 +26,13 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class LoanCreateProcessor implements ProcessorInterface
 {
     public function __construct(
-        private UserRepository         $userRepository,
-        private BookRepository         $bookRepository,
-        private LoanValidationChain    $validationChain,
-        private LoanResourceMapper     $mapper,
+        private UserRepository      $userRepository,
+        private BookRepository      $bookRepository,
+        private LoanValidationChain $validationChain,
+        private LoanResourceMapper  $mapper,
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
-        private ProcessorInterface     $persistProcessor,
-        private readonly CreateLoanHandler $createLoanHandler,
+        private ProcessorInterface  $persistProcessor,
+        private CreateLoanHandler   $createLoanHandler,
     ) {}
 
     /**
