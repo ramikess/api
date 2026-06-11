@@ -48,7 +48,7 @@ final readonly class LoanCreateProcessor implements ProcessorInterface
 
         $this->validationChain->validate($user, $book, $data);
 
-        $loan = $this->createLoanHandler->createLoan($data);
+        $loan = $this->createLoanHandler->createLoan($user, $book, $data);
         $loan = $this->persistProcessor->process($loan, $operation, $uriVariables, $context);
 
         return $this->mapper->map($loan);
