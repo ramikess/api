@@ -46,5 +46,6 @@ class UserResource
     public string $email;
 
     #[Groups(['user:read'])]
+    #[Map(source: 'photo')]
     public string $photoUrl;
 }
