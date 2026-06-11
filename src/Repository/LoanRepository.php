@@ -59,4 +59,13 @@ class LoanRepository extends ServiceEntityRepository
     {
         return $this->count(['user' => $user, 'status' => LoanStatus::Active]);
     }
+
+    public function remove(Loan $loan, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($loan);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

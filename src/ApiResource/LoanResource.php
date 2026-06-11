@@ -6,6 +6,7 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -13,6 +14,7 @@ use App\Dto\Input\LoanCreateInput;
 use App\Dto\Input\LoanReturnInput;
 use App\Entity\Loan;
 use App\State\Processor\LoanCreateProcessor;
+use App\State\Processor\LoanDeleteProcessor;
 use App\State\Processor\LoanReturnProcessor;
 use App\State\Provider\LoanProvider;
 use Symfony\Component\ObjectMapper\Attribute\Map;
@@ -42,6 +44,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
             normalizationContext: ['groups' => ['loan:read']],
             provider: LoanProvider::class,
         ),
+        new Delete(
+            provider: LoanProvider::class,
+            processor: LoanDeleteProcessor::class,
+        )
 //      Action custom
 //        new Post(
 //            uriTemplate: '/books/{id}/borrow',
